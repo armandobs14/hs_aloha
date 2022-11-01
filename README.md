@@ -1,5 +1,5 @@
 # hs_aloha
-This repository is an proposal of implementation for the Hierarchical Slotted ALOHA using python language
+This repository is a proposal of implementation for the Hierarchical Slotted ALOHA using python language
 
 ![aloha - Time-sequence diagram](aloha.png "Time-sequence diagram")
 
