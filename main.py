@@ -5,10 +5,10 @@ import time
 import os
 
 # Environment variables
-os.environ["SUBNETS"] = "5"
-os.environ["NODES_PER_NET"] = "20"
-os.environ["LOOPS"] = "1000"
-os.environ["GENERATE_INTERVAL"] = "100"
+os.environ["SUBNETS"] = "2"
+os.environ["NODES_PER_NET"] = "10"
+os.environ["LOOPS"] = "100"
+os.environ["GENERATE_INTERVAL"] = "1"
 
 if __name__ == "__main__":
     subnets = int(os.environ.get("SUBNETS", "2"))

@@ -68,7 +68,7 @@ class Aloha:
                     subnet.head_node.generate()
                     for member in subnet.members:
                         member.generate()
-                    continue
+                    # continue
 
                 # sessing data from head_node and member_nodes
                 subnet.head_node.transmit()
@@ -168,6 +168,7 @@ class Aloha:
         columns = ["timestamp", "loop", "network", "type", "message"]
         log_df = pd.read_csv("aloha.log", header=None)
         log_df.columns = columns
+        log_df["type"] = log_df["type"].str.strip()
 
         log_df["timestamp"] = log_df["timestamp"].str.replace("DEBUG:root:", "")
         log_df["timestamp"] = pd.to_datetime(log_df["timestamp"])
@@ -180,5 +181,7 @@ class Aloha:
             .fillna(0)
         )
 
-        df.to_csv("metrics.csv")
+        df["performance"] = df["SUCCESS"] / df["GENERATING_PACKAGES"]
+
         print(df)
+        df.to_csv("metrics.csv")

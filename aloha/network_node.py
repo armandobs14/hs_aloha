@@ -10,6 +10,7 @@ class Status(Enum):
     IDLE = "IDLE"
     TRANSMITING = "TRANSMITING"
 
+
 class NetWorkNode(ABC):
     @abstractmethod
     def transmit():
