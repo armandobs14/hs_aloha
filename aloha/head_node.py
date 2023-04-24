@@ -8,9 +8,9 @@ import gc
 
 
 class HeadNode(NetWorkNode):
-    def __init__(self, main_network, subnet, probabilty):
+    def __init__(self, main_network, subnet, coin):
         self.Status = Status.IDLE
-        self.probability = probabilty
+        self.coin = coin
         self.main_network = main_network
         self.subnet = subnet
         self.buffer = []
@@ -30,11 +30,22 @@ class HeadNode(NetWorkNode):
         """
         Transmit data to main_network
         """
-        if (
-            len(self.buffer) > 0
-            and choice([Status.TRANSMITING, Status.IDLE]) == Status.TRANSMITING
-        ):
+
+        if self.coin:
+            submit_condition = (
+                len(self.buffer) > 0
+                and choice([Status.TRANSMITING, Status.IDLE]) == Status.TRANSMITING
+            )
+
+        else:
+            submit_condition = len(self.buffer) > 0
+
+        if submit_condition:
+            log_info(self.subnet, "HEAD_NODE", Status.TRANSMITING)
             self.Status = Status.TRANSMITING
+        else:
+            log_info(self.subnet, "HEAD_NODE", Status.IDLE)
+            self.Status = Status.IDLE
 
     def receive(self, data):
         """

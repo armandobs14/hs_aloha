@@ -19,6 +19,7 @@ class Aloha:
         loops: int = 1000,
         generate_interval: int = 100,
         head_node_generate: bool = True,
+        head_node_coin: bool = True,
     ):
         self.generate_interval = generate_interval
         self.nodes_per_subnet = nodes_per_subnet
@@ -27,6 +28,7 @@ class Aloha:
         self.head_node_probability = 1.0 / self.subnets
         self.node_probability = 1.0 / self.nodes_per_subnet
         self.head_node_generate = head_node_generate
+        self.head_node_coin = head_node_coin
 
     def generate_packets(self):
         for subnet in self.subnet_list:
@@ -47,7 +49,7 @@ class Aloha:
         for i in range(self.subnets):
             subnet = Network(f"SUBNET_{i}")
 
-            head_node = HeadNode(self.main_network, subnet, self.head_node_probability)
+            head_node = HeadNode(self.main_network, subnet, self.head_node_coin)
 
             subnet.head_node = head_node
 
