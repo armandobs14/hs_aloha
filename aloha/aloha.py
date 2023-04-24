@@ -136,7 +136,6 @@ class Aloha:
             df["COLLISION"] = df["HEAD_NODE_COLLISION"] + df["NODE_COLLISION"]
 
         df["BUSY"] = df["COLLISION"] + df["SUCCESS"]
-        df["performance"] = df["SUCCESS"] / df["GENERATING_PACKAGES"]
         df["THROUGHPUT"] = df["SUCCESS"] / (df["IDLE"] + df["BUSY"])
 
         print(df)

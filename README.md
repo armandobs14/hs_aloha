@@ -5,14 +5,27 @@ This repository is a proposal of implementation for the Hierarchical Slotted ALO
 
 
 ## Simulation variables
-The simulation variables can be set as environment variables.
-To do this you just need uncomment the fillowing lines in the `main.py` and change the values.
+The simulation variables can be changed in you just need uncomment the fil the `main.py`.
 
 ```python
-# os.environ["SUBNETS"] = "2"
-# os.environ["NODES_PER_NET"] = "2"
-# os.environ["LOOPS"] = "1000"
-# os.environ["GENERATE_INTERVAL"] = "100"
+
+# Slotted aloha configuration
+sloted_aloha = {
+    "subnets": 1,
+    "nodes_per_subnet": 3,
+    "generate_interval": -1,
+    "head_node_generate": False,
+    "head_node_coin": False,
+}
+
+# Hierarchical Slotted ALOHA configuration
+hs_aloha = {
+    "subnets": 2,
+    "nodes_per_subnet": 3,
+    "generate_interval": 10,
+    "head_node_generate": True,
+    "head_node_coin": True,
+}
 ```
 
 ## How to use
@@ -26,34 +39,28 @@ python3 main.py
 
 When executed a file called `aloha.log` will be created containing the log interactions.
 ```bash
+# info logs
+INFO:root:2023-04-24T01:56:38.976460,SUBNET_0, HEAD_NODE, TRANSMITING, TRANSMITING
+INFO:root:2023-04-24T01:56:38.976554,SUBNET_0, 1, IDLE, IDLE
+INFO:root:2023-04-24T01:56:38.978009,BASE_STATION, None, IDLE, IDLE
+
 # non collisons
-DEBUG:root:SUBNET_0:GENERATING PACKAGES
-DEBUG:root:SUBNET_0:MEMBER -> HEAD_NODE
-DEBUG:root:BASE_STATION:HEAD_NODE -> BASE_STATION
+DEBUG:root:2023-04-24T01:56:38.978592,SUBNET_0, None, SUCCESS, SUCCESS
+DEBUG:root:2023-04-24T01:47:33.643989,BASE_STATION, None, SUCCESS, SUCCESS
 
 # collisions
-DEBUG:root:SUBNET_0:MEMBER COLLISION
-DEBUG:root:SUBNET_0:HEAD_MEMBER COLLISION
-DEBUG:root:BASE_STATION:HEAD_NODE COLLISION
+DEBUG:root:2023-04-24T01:47:33.594998,SUBNET_0, None, NODE_COLLISION, NODE COLLISION
+DEBUG:root:2023-04-24T01:47:33.575478,SUBNET_0, None, HEAD_NODE_COLLISION, HEAD_NODE COLLISION
 ```
 
 Also a resume called `metrics.csv` will be generated containing metrics like:
 ```
-|---------------|------------|----------------------|-------|----------|
-| network       |  COLLISION |  GENERATING_PACKAGES |  IDLE |  SUCCESS |
-|---------------|------------|----------------------|-------|----------|
-|  BASE_STATION |       31.0 |                  0.0 | 318.0 |    151.0 |
-|---------------|------------|----------------------|-------|----------|
-|  SUBNET_0     |       31.0 |                  5.0 | 409.0 |     67.0 |
-|---------------|------------|----------------------|-------|----------|
-|  SUBNET_1     |       36.0 |                  5.0 | 415.0 |     64.0 |
-|---------------|------------|----------------------|-------|----------|
-|  SUBNET_2     |       26.0 |                  5.0 | 412.0 |     71.0 |
-|---------------|------------|----------------------|-------|----------|
-|  SUBNET_3     |       37.0 |                  5.0 | 411.0 |     63.0 |
-|---------------|------------|----------------------|-------|----------|
-|  SUBNET_4     |       31.0 |                  5.0 | 407.0 |     67.0 |
-|---------------|------------|----------------------|-------|----------|
+| type         | GENERATING_PACKAGES | HEAD_NODE_COLLISION | IDLE | NODE_COLLISION | SUCCESS | COLLISION | BUSY | THROUGHPUT |
+|--------------|---------------------|---------------------|------|----------------|---------|-----------|------|------------|
+| network      |                     |                     |      |                |         |           |      |            |
+| BASE_STATION | 0.0                 | 0.0                 | 7.0  | 0.0            | 2.0     | 0.0       | 2.0  | 0.222222   |
+| SUBNET_0     | 4.0                 | 5.0                 | 2.0  | 1.0            | 1.0     | 6.0       | 7.0  | 0.111111   |
+| SUBNET_1     | 4.0                 | 0.0                 | 6.0  | 0.0            | 3.0     | 0.0       | 3.0  | 0.333333   |
 ```
 
 ### References:
