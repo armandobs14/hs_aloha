@@ -1,6 +1,7 @@
 from aloha.network_node import NetWorkNode
-from aloha.network_node import Status
-from random import random
+from aloha.aloha_logging import Status
+from aloha.aloha_logging import *
+from random import choice
 import uuid
 import os
 import gc
@@ -18,18 +19,21 @@ class HeadNode(NetWorkNode):
         """
         Generate a new package
         """
+        log(self.subnet, "HEAD_NODE", Status.GENERATING_PACKAGES)
         self.buffer.append(uuid.uuid4())
 
     def clear(self):
         self.buffer = []
         gc.collect()
 
-    def transmit(self):
+    def submit(self):
         """
         Transmit data to main_network
         """
-        if random() <= self.probability and len(self.buffer) > 0:
-            self.main_network.receive(self.buffer)
+        if (
+            len(self.buffer) > 0
+            and choice([Status.TRANSMITING, Status.IDLE]) == Status.TRANSMITING
+        ):
             self.Status = Status.TRANSMITING
 
     def receive(self, data):

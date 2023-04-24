@@ -1,19 +1,10 @@
-import uuid
-import logging
 from abc import ABC
-from enum import Enum
-from typing import List
 from abc import abstractmethod
-
-
-class Status(Enum):
-    IDLE = "IDLE"
-    TRANSMITING = "TRANSMITING"
 
 
 class NetWorkNode(ABC):
     @abstractmethod
-    def transmit():
+    def submit():
         raise NotImplementedError("Method not implemented")
 
     @abstractmethod
