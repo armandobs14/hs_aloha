@@ -14,19 +14,17 @@ from aloha.aloha_logging import Status, log_line
 class Aloha:
     def __init__(
         self,
-        subnets: int = 2,
-        nodes_per_subnet: int = 2,
-        loops: int = 1000,
-        generate_interval: int = 100,
-        head_node_generate: bool = True,
-        head_node_coin: bool = True,
+        subnets: int,
+        nodes_per_subnet: int,
+        max_loop: int,
+        generate_interval: int,
+        head_node_generate: bool,
+        head_node_coin: bool,
     ):
         self.generate_interval = generate_interval
         self.nodes_per_subnet = nodes_per_subnet
         self.subnets = subnets
-        self.loops = loops
-        self.head_node_probability = 1.0 / self.subnets
-        self.node_probability = 1.0 / self.nodes_per_subnet
+        self.loops = max_loop
         self.head_node_generate = head_node_generate
         self.head_node_coin = head_node_coin
 
@@ -54,9 +52,7 @@ class Aloha:
             subnet.head_node = head_node
 
             for node_index in range(self.nodes_per_subnet):
-                subnet.members.append(
-                    MemberNode(subnet, self.node_probability, node_index)
-                )
+                subnet.members.append(MemberNode(subnet, node_index))
 
             self.subnet_list.append(subnet)
             self.main_network.members.append(head_node)
@@ -102,6 +98,9 @@ class Aloha:
                 self.main_network.notify(status)
 
                 loop_index += 1
+                if self.loops > 0 and loop_index == self.loops:
+                    return self
+
                 log_line()
 
     def analyse(self):

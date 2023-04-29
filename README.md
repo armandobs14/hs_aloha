@@ -11,11 +11,13 @@ The simulation variables can be changed in you just need uncomment the fil the `
 
 # Slotted aloha configuration
 sloted_aloha = {
-    "subnets": 1,
-    "nodes_per_subnet": 3,
-    "generate_interval": -1,
-    "head_node_generate": False,
-    "head_node_coin": False,
+    "subnets": 1,                   # * Quantidade de sub-redes.
+    "nodes_per_subnet": 3,          # * Quantidade de nós por sub-rede
+    "generate_interval": -1,        # * Intervalo de geração de pacotes.
+                                    #   -1 Implica que não haverá geração
+                                    #   de pacotes durante a execução.
+    "head_node_generate": False,    # * Define se o HEAD_NODE pode gerar pacotes
+    "head_node_coin": False,        # * Define se o HEAD_NODE tem sorteio com moeda
 }
 
 # Hierarchical Slotted ALOHA configuration

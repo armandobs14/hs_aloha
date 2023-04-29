@@ -7,9 +7,8 @@ from aloha.network_node import NetWorkNode
 
 
 class MemberNode(NetWorkNode):
-    def __init__(self, main_network, probabilty, node_index):
+    def __init__(self, main_network, node_index):
         self.Status = Status.IDLE
-        self.probability = probabilty
         self.main_network = main_network
         self.buffer = []
         self.node_index = node_index
