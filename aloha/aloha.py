@@ -69,6 +69,7 @@ class Aloha:
         total_packts = self.subnets * self.nodes_per_subnet
         with alive_bar() as bar:
             while True:
+                time.sleep(1)
                 bar()
                 network_status = self.main_network.get_status()
                 # All packets was received
