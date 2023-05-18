@@ -17,7 +17,7 @@ if __name__ == "__main__":
         "subnets": 2,
         "nodes_per_subnet": 3,
         "generate_interval": -1,
-        "head_node_generate": True,
+        "head_node_generate": False,
         "head_node_coin": True,
         "max_loop": 100,
     }

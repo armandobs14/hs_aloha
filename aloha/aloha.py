@@ -126,14 +126,16 @@ class Aloha:
             .fillna(0)
         )
 
-        if "HEAD_NODE_COLLISION" not in df.columns:
-            df["HEAD_NODE_COLLISION"] = 0
+        df["SUCCESS"] = df["SUCCESS"] + df["PARTIAL_NODE_COLISION"]
+
+        if "PARTIAL_NODE_COLISION" not in df.columns:
+            df["PARTIAL_NODE_COLISION"] = 0
 
         if "NODE_COLLISION" not in df.columns:
             df["NODE_COLLISION"] = 0
 
         if "COLLISION" not in df.columns:
-            df["COLLISION"] = df["HEAD_NODE_COLLISION"] + df["NODE_COLLISION"]
+            df["COLLISION"] = df["PARTIAL_NODE_COLISION"] + df["NODE_COLLISION"]
 
         df["BUSY"] = df["COLLISION"] + df["SUCCESS"]
         df["THROUGHPUT"] = df["SUCCESS"] / (df["IDLE"] + df["BUSY"])
