@@ -44,8 +44,8 @@ class Network:
                 len(transmitting_nodes) >= 1
                 and self.head_node.Status == Status.TRANSMITING
             ):
-                log_info(self, None, Status.HEAD_NODE_COLLISION)
-                return Status.HEAD_NODE_COLLISION
+                log_info(self, None, Status.PARTIAL_NODE_COLISION)
+                return Status.PARTIAL_NODE_COLISION
 
         # Member collision
         if len(transmitting_nodes) > 1:
@@ -66,15 +66,18 @@ class Network:
         """
         transmitting_nodes = self.get_transmitting_nodes()
 
-        if collision_type == Status.HEAD_NODE_COLLISION:
-            self.head_node.error()
+        if collision_type == Status.PARTIAL_NODE_COLISION:
+            self.head_node.success()
 
         for node in transmitting_nodes:
             node.error()
 
     def notify(self, status):
         log(self, None, status)
-        if status in [Status.HEAD_NODE_COLLISION, Status.NODE_COLLISION]:
+        if status in [
+            Status.NODE_COLLISION,
+            Status.PARTIAL_NODE_COLISION,
+        ]:
             self.notify_collision(status)
         elif status == Status.SUCCESS:
             self.notify_success()
