@@ -22,3 +22,7 @@ class NetWorkNode(ABC):
     @abstractmethod
     def error():
         raise NotImplementedError("Method not implemented")
+
+    @abstractmethod
+    def log_status(self):
+        raise NotImplementedError("Method not implemented")

@@ -66,7 +66,12 @@ class Aloha:
         Run aloha simulation
         """
         loop_index = 0
-        total_packts = self.subnets * self.nodes_per_subnet
+
+        packets_per_subnet = self.nodes_per_subnet
+        if self.head_node_generate:
+            packets_per_subnet += 1
+
+        total_packts = self.subnets * packets_per_subnet
         with alive_bar() as bar:
             while True:
                 time.sleep(1)
@@ -74,7 +79,6 @@ class Aloha:
                 network_status = self.main_network.get_status()
                 # All packets was received
                 if len(network_status["memory"]) == total_packts:
-                    pprint(self.main_network.get_status())
                     return self
 
                 # Generate packets
@@ -87,10 +91,10 @@ class Aloha:
                     continue
 
                 for subnet in self.subnet_list:
-                    subnet.head_node.submit()
                     for node in subnet.members:
                         node.submit()
 
+                    subnet.head_node.submit()
                     status = subnet.get_submission_status()
                     subnet.notify(status)
 
@@ -126,7 +130,11 @@ class Aloha:
             .fillna(0)
         )
 
-        df["SUCCESS"] = df["SUCCESS"] + df["PARTIAL_NODE_COLISION"]
+        if "IDLE" not in df.columns:
+            df["IDLE"] = 0
+
+        if "SUCCESS" not in df.columns:
+            df["SUCCESS"] = 0
 
         if "PARTIAL_NODE_COLISION" not in df.columns:
             df["PARTIAL_NODE_COLISION"] = 0

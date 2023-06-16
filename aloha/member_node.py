@@ -58,3 +58,9 @@ class MemberNode(NetWorkNode):
         """
         if self.Status == Status.TRANSMITING:
             self.Status = Status.IDLE
+
+    def log_status(self):
+        """
+        Log Current Status
+        """
+        custom_log(f"MEMBER_NODE: {self.Status} {self.buffer}")

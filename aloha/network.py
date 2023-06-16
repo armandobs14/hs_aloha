@@ -66,9 +66,6 @@ class Network:
         """
         transmitting_nodes = self.get_transmitting_nodes()
 
-        if collision_type == Status.PARTIAL_NODE_COLISION:
-            self.head_node.success()
-
         for node in transmitting_nodes:
             node.error()
 

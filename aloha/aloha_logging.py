@@ -35,10 +35,14 @@ def log_info(network, node_index, status):
 
 def log(network, node_index, status, level=logging.DEBUG):
     message_log = "{timestamp},{network}, {node_index}, {event_type}, {message}".format(
-        timestamp=datetime.now().isoformat(),
+        timestamp=datetime.now().replace(microsecond=0).isoformat(),
         network=network.network_name,
         node_index=node_index,
         event_type=status.name,
         message=status.value,
     )
+    logging.log(level, message_log)
+
+
+def custom_log(message_log, level=logging.INFO):
     logging.log(level, message_log)
