@@ -32,6 +32,12 @@ hs_aloha = {
 
 ## How to use
 ```bash
+# create a virtualenv
+python3 -m venv .venv
+
+# load virtualenv
+source .venv/bin/activate
+
 # install dependencies
 python3 -m pip install -r requirements.txt
 
@@ -65,5 +71,19 @@ Also a resume called `metrics.csv` will be generated containing metrics like:
 | SUBNET_1     | 4.0                 | 0.0                 | 6.0  | 0.0            | 3.0     | 0.0       | 3.0  | 0.333333   |
 ```
 
+## Running an experiment
+```bash
+# create a virtualenv
+python3 -m venv .venv
+
+# load virtualenv
+source .venv/bin/activate
+
+# install dependencies
+python3 -m pip install -r requirements.txt
+
+# run the experiment
+python3 experiment.py
+```
 ### References:
 [T. Oku, T. Kimura and J. Cheng, "Performance Evaluation of Hierarchical Slotted ALOHA for IoT Applications," 2020 IEEE International Conference on Consumer Electronics - Taiwan (ICCE-Taiwan), 2020, pp. 1-2, doi: 10.1109/ICCE-Taiwan49838.2020.9258134.](paper.pdf)
