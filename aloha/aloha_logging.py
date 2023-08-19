@@ -3,7 +3,7 @@ import logging
 from enum import Enum
 from datetime import datetime
 
-config = {"filename": "aloha.log", "level": logging.DEBUG}
+config = {"filename": "data/aloha.log", "level": logging.DEBUG}
 logging.basicConfig(**config)
 
 

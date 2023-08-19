@@ -1,14 +1,11 @@
 import time
-import logging
+import numpy as np
 import pandas as pd
-from pprint import pprint
-from datetime import datetime
-from aloha.aloha_logging import *
 from aloha.network import Network
-from alive_progress import alive_bar, alive_it
+from alive_progress import alive_bar
 from aloha.head_node import HeadNode
 from aloha.member_node import MemberNode
-from aloha.aloha_logging import Status, log_line
+from aloha.aloha_logging import init_log, log_line, custom_log
 
 
 class Aloha:
@@ -20,6 +17,7 @@ class Aloha:
         generate_interval: int,
         head_node_generate: bool,
         head_node_coin: bool,
+        time_sleep: int = 1,
     ):
         self.generate_interval = generate_interval
         self.nodes_per_subnet = nodes_per_subnet
@@ -27,6 +25,7 @@ class Aloha:
         self.loops = max_loop
         self.head_node_generate = head_node_generate
         self.head_node_coin = head_node_coin
+        self.time_sleep = time_sleep
 
     def generate_packets(self):
         for subnet in self.subnet_list:
@@ -67,6 +66,13 @@ class Aloha:
         """
         loop_index = 0
 
+        # Geração de semente aleatória para cada execução
+        self.seed = np.random.randint(1, 100)
+        np.random.seed(self.seed)
+
+        # Salva valor de semente nos logs
+        custom_log(f"SEED: {self.seed}")
+
         packets_per_subnet = self.nodes_per_subnet
         if self.head_node_generate:
             packets_per_subnet += 1
@@ -74,7 +80,10 @@ class Aloha:
         total_packts = self.subnets * packets_per_subnet
         with alive_bar() as bar:
             while True:
-                time.sleep(1)
+                if self.loops > 0 and self.loops == loop_index:
+                    return self
+
+                time.sleep(self.time_sleep)
                 bar()
                 network_status = self.main_network.get_status()
                 # All packets was received
@@ -103,14 +112,11 @@ class Aloha:
                 self.main_network.notify(status)
 
                 loop_index += 1
-                if self.loops > 0 and loop_index == self.loops:
-                    return self
-
                 log_line()
 
     def analyse(self):
         columns = ["timestamp", "network", "node", "type", "message"]
-        log_df = pd.read_csv("aloha.log", header=None)
+        log_df = pd.read_csv("data/aloha.log", skiprows=1, header=None)
         log_df.columns = columns
         log_df["type"] = log_df["type"].str.strip()
 
@@ -122,7 +128,9 @@ class Aloha:
         )
         log_df["timestamp"] = pd.to_datetime(log_df["timestamp"])
 
-        print("Estatísticas gerais")
+        log_df.to_csv("data/log.csv", index=False)
+
+        print(f"Estatísticas gerais: (SEMENTE: {self.seed})")
         df = (
             log_df.groupby(["network", "type"], as_index=False)
             .agg({"timestamp": "count"})
@@ -149,4 +157,4 @@ class Aloha:
         df["THROUGHPUT"] = df["SUCCESS"] / (df["IDLE"] + df["BUSY"])
 
         print(df)
-        df.to_csv("metrics.csv")
+        df.to_csv("data/metrics.csv")
