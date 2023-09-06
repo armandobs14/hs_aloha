@@ -1,18 +1,19 @@
 from aloha.network_node import NetWorkNode
 from aloha.aloha_logging import Status
 from aloha.aloha_logging import *
-from random import choice
+from random import random
 import uuid
 import os
 import gc
 
 
 class HeadNode(NetWorkNode):
-    def __init__(self, main_network, subnet, coin):
-        self.Status = Status.IDLE
-        self.coin = coin
+    def __init__(self, main_network, subnet, coin, submission_probability):
+        self.submission_probability = submission_probability
         self.main_network = main_network
+        self.Status = Status.IDLE
         self.subnet = subnet
+        self.coin = coin
         self.buffer = []
 
     def generate(self):
@@ -32,9 +33,8 @@ class HeadNode(NetWorkNode):
         """
 
         if self.coin:
-            submit_condition = (
-                len(self.buffer) > 0
-                and choice([Status.TRANSMITING, Status.IDLE]) == Status.TRANSMITING
+            submit_condition = (len(self.buffer) > 0) and (
+                random() <= self.submission_probability
             )
 
         else:

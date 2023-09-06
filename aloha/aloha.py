@@ -45,13 +45,16 @@ class Aloha:
 
         for i in range(self.subnets):
             subnet = Network(f"SUBNET_{i}")
-
-            head_node = HeadNode(self.main_network, subnet, self.head_node_coin)
+            head_node = HeadNode(
+                self.main_network, subnet, self.head_node_coin, 1 / self.subnets
+            )
 
             subnet.head_node = head_node
 
             for node_index in range(self.nodes_per_subnet):
-                subnet.members.append(MemberNode(subnet, node_index))
+                subnet.members.append(
+                    MemberNode(subnet, node_index, 1 / self.nodes_per_subnet)
+                )
 
             self.subnet_list.append(subnet)
             self.main_network.members.append(head_node)

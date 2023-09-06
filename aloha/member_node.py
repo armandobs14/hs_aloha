@@ -1,17 +1,18 @@
 import gc
 import uuid
-from random import choice
+from random import random
 from aloha.aloha_logging import *
 from aloha.aloha_logging import Status
 from aloha.network_node import NetWorkNode
 
 
 class MemberNode(NetWorkNode):
-    def __init__(self, main_network, node_index):
-        self.Status = Status.IDLE
+    def __init__(self, main_network, node_index, submission_probability):
+        self.submission_probability = submission_probability
         self.main_network = main_network
-        self.buffer = []
         self.node_index = node_index
+        self.Status = Status.IDLE
+        self.buffer = []
 
     def generate(self):
         """
@@ -28,10 +29,7 @@ class MemberNode(NetWorkNode):
         """
         Send data to the network
         """
-        if (
-            len(self.buffer) > 0
-            and choice([Status.TRANSMITING, Status.IDLE]) == Status.TRANSMITING
-        ):
+        if (len(self.buffer) > 0) and (random() <= self.submission_probability):
             log_info(self.main_network, self.node_index, Status.TRANSMITING)
             self.Status = Status.TRANSMITING
 
