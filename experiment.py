@@ -12,7 +12,6 @@ experiments = 100
 # Realizando experimentos
 for i in tqdm(range(experiments)):
     subprocess.run(["python3", "main.py", "/dev/null"])
-    # subprocess.run(["mv", "data/metrics.csv", f"data/metrics_{i}.csv"])
     os.rename("data/metrics.csv", f"data/metrics_{i}.csv")
 
 # Carregando dataframes
