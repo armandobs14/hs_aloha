@@ -2,3 +2,4 @@ black
 pandas
 tqdm
 alive-progress
+fire
