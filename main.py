@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 from aloha.aloha import Aloha
+import fire
 
-if __name__ == "__main__":
+def main(*args, **kwargs):
     # s_aloha = {
     #     "subnets": 1,
     #     "nodes_per_subnet": 3,
@@ -21,5 +22,13 @@ if __name__ == "__main__":
         "head_node_coin": True,
         "max_loop": 100,
     }
+    
+    final = {
+        **hs_aloha,
+        **kwargs
+    }
 
-    (Aloha(**hs_aloha).create().start().analyse())
+    (Aloha(**final).create().start().analyse())
+
+if __name__ == "__main__":
+    fire.Fire(main)

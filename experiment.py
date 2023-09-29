@@ -3,17 +3,24 @@ import sys
 import subprocess
 import pandas as pd
 from tqdm import tqdm
+from main import main
+from datetime import datetime
 
 dataframes = []
 
 # Quantidade de experimentos
 experiments = 100
 
+start = datetime.now()
 # Realizando experimentos
 for i in tqdm(range(experiments)):
-    subprocess.run(["python3", "main.py", "/dev/null"])
+    main(time_sleep=False)
     os.rename("data/metrics.csv", f"data/metrics_{i}.csv")
 
+end = datetime.now()
+print(f"""
+      DURATION: {end - start}
+      """)
 # Carregando dataframes
 for i in tqdm(range(experiments)):
     try:
