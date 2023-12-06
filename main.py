@@ -3,6 +3,7 @@
 from aloha.aloha import Aloha
 import fire
 
+
 def main(*args, **kwargs):
     # s_aloha = {
     #     "subnets": 1,
@@ -22,13 +23,11 @@ def main(*args, **kwargs):
         "head_node_coin": True,
         "max_loop": 100,
     }
-    
-    final = {
-        **hs_aloha,
-        **kwargs
-    }
+
+    final = {**hs_aloha, **kwargs}
 
     (Aloha(**final).create().start().analyse())
+
 
 if __name__ == "__main__":
     fire.Fire(main)

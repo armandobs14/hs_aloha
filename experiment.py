@@ -18,9 +18,11 @@ for i in tqdm(range(experiments)):
     os.rename("data/metrics.csv", f"data/metrics_{i}.csv")
 
 end = datetime.now()
-print(f"""
+print(
+    f"""
       DURATION: {end - start}
-      """)
+      """
+)
 # Carregando dataframes
 for i in tqdm(range(experiments)):
     try:
