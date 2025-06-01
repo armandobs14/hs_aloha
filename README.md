@@ -5,47 +5,27 @@ This repository is a proposal of implementation for the Hierarchical Slotted ALO
 
 
 ## Simulation variables
-The simulation variables can be changed in you just need uncomment the fil the `main.py`.
+The simulation variables can be changed in [.env](.env) file.
 
-```python
-
-# Slotted aloha configuration
-sloted_aloha = {
-    "subnets": 1,                   # * Quantidade de sub-redes.
-    "nodes_per_subnet": 3,          # * Quantidade de nós por sub-rede
-    "generate_interval": -1,        # * Intervalo de geração de pacotes.
+```bash
+SUBNETS=2                           # * Quantidade de sub-redes.
+NODES_PER_SUBNET=3                  # * Quantidade de nós por sub-rede
+GENERATE_INTERVAL=2                 # * Intervalo de geração de pacotes. 
                                     #   -1 Implica que não haverá geração
                                     #   de pacotes durante a execução.
-    "head_node_generate": False,    # * Define se o HEAD_NODE pode gerar pacotes
-    "head_node_coin": False,        # * Define se o HEAD_NODE tem sorteio com moeda
-}
-
-# Hierarchical Slotted ALOHA configuration
-hs_aloha = {
-    "subnets": 2,
-    "nodes_per_subnet": 3,
-    "generate_interval": 10,
-    "head_node_generate": True,
-    "head_node_coin": True,
-}
+HEAD_NODE_GENERATE=False            # * Define se o HEAD_NODE pode gerar pacotes
+HEAD_NODE_COIN=True                 # * Define se o HEAD_NODE tem sorteio com moeda
+MAX_LOOP=10                         # * Define o número máximo de loops do experimento
+ALOHA_LOG_FILE=/app/data/aloha.log  # * Define local onde será salvo os logs do experimento
 ```
 
 ## How to use
 ```bash
-# create a virtualenv
-python3 -m venv .venv
-
-# load virtualenv
-source .venv/bin/activate
-
-# install dependencies
-python3 -m pip install -r requirements.txt
-
-# run the main file
-python3 main.py
+# run docker compose
+docker compose run --rm aloha
 ```
 
-When executed a file called `aloha.log` will be created containing the log interactions.
+When executed a file will be created containing the log interactions. This file will be created on the path setted by the ENV `ALOHA_LOG_FILE`
 ```bash
 # info logs
 INFO:root:2023-04-24T01:56:38.976460,SUBNET_0, HEAD_NODE, TRANSMITING, TRANSMITING
@@ -74,16 +54,9 @@ Also a resume called `metrics.csv` will be generated containing metrics like:
 ## Running an experiment
 ```bash
 # create a virtualenv
-python3 -m venv .venv
-
-# load virtualenv
-source .venv/bin/activate
-
-# install dependencies
-python3 -m pip install -r requirements.txt
-
-# run the experiment
-python3 experiment.py
+docker compose run --rm experiment
 ```
+
+You can change the number of experiments setting the value of `EXPERIMENTS` varible in [compose.yml](compose.yml)
 ### References:
 [T. Oku, T. Kimura and J. Cheng, "Performance Evaluation of Hierarchical Slotted ALOHA for IoT Applications," 2020 IEEE International Conference on Consumer Electronics - Taiwan (ICCE-Taiwan), 2020, pp. 1-2, doi: 10.1109/ICCE-Taiwan49838.2020.9258134.](paper.pdf)

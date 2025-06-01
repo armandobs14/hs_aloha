@@ -1,0 +1,21 @@
+services:
+  aloha:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aloha
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+
+  experiment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aloha
+    command: [ "python", "experiment.py" ]
+    env_file:
+      - .env
+    volumes:
+      - ./:/app

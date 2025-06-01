@@ -1,3 +1,4 @@
+import os
 import time
 import numpy as np
 import pandas as pd
@@ -115,8 +116,13 @@ class Aloha:
                 log_line()
 
     def analyse(self):
+        log_file = os.getenv("ALOHA_LOG_FILE")
+        if log_file is None:
+            print("ALOHA_LOG_FILE environment variable is not set.")
+            return
+
         columns = ["timestamp", "network", "node", "type", "message"]
-        log_df = pd.read_csv("data/aloha.log", skiprows=1, header=None)
+        log_df = pd.read_csv(log_file, skiprows=1, header=None)
         log_df.columns = columns
         log_df["type"] = log_df["type"].str.strip()
 

@@ -3,7 +3,16 @@ import logging
 from enum import Enum
 from datetime import datetime
 
-config = {"filename": "data/aloha.log", "level": logging.DEBUG}
+config = {
+    # "format": "%(message)s",
+    "datefmt": "%Y-%m-%d %H:%M:%S",
+    "level": logging.DEBUG,
+}
+
+if "ALOHA_LOG_FILE" in os.environ:
+    config["filename"] = os.environ["ALOHA_LOG_FILE"]
+
+
 logging.basicConfig(**config)
 
 
@@ -34,12 +43,14 @@ def log_info(network, node_index, status):
 
 
 def log(network, node_index, status, level=logging.DEBUG):
-    message_log = "{timestamp},{network}, {node_index}, {event_type}, {message}".format(
-        timestamp=datetime.now().replace(microsecond=0).isoformat(),
-        network=network.network_name,
-        node_index=node_index,
-        event_type=status.name,
-        message=status.value,
+    message_log = (
+        "{timestamp}, {network}, {node_index}, {event_type}, {message}".format(
+            timestamp=datetime.now().replace(microsecond=0).isoformat(),
+            network=network.network_name,
+            node_index=node_index,
+            event_type=status.name,
+            message=status.value,
+        )
     )
     logging.log(level, message_log)
 

@@ -9,7 +9,7 @@ from datetime import datetime
 dataframes = []
 
 # Quantidade de experimentos
-experiments = 100
+experiments = int(os.getenv("EXPERIMENTS", 10))
 
 start = datetime.now()
 # Realizando experimentos
